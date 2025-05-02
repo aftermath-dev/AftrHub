@@ -26,6 +26,7 @@ local ImageButton = Instance.new("ImageButton")
 local players = game:GetService("Players")
 local localPlayer = players.LocalPlayer
 local id = localPlayer.UserId
+local API = loadstring(game:HttpGet("https://api.aftrhub.xyz/APISTATUS.lua"))()
 
 --Properties:
 
@@ -188,3 +189,22 @@ ImageButton.Position = UDim2.new(0.915869951, 0, 0.0193548389, 0)
 ImageButton.Size = UDim2.new(0, 37, 0, 37)
 ImageButton.Image = "http://www.roblox.com/asset/?id=9545003266"
 
+ImageButton.MouseButton1Click:Connect(function()
+    loadergui:Destroy()
+end)
+
+if API.Status == "200" then
+  TextLabel_6.Text = "Working"
+  TextLabel_6.TextColor3 = Color3.fromRGB(0, 128, 0)
+elseif API.Status == "201" then
+  TextLabel_6.Text = "Updating"
+  TextLabel_6.TextColor3 = Color3.fromRGB(255, 170, 0)
+elseif API.Status == "404" then
+  TextLabel_6.Text = "Problems"
+  TextLabel_6.TextColor3 = Color3.fromRGB(255, 0, 0)
+elseif API.Status == "909" then
+  TextLabel_6.Text = "Developing"
+  TextLabel_6.TextColor3 = Color3.fromRGB(255, 0, 0)
+else
+  print("API status not detected!")
+end
