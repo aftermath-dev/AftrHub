@@ -213,3 +213,50 @@ elseif API.Status == "909" then
 else
   print("API status not detected!")
 end
+
+local Object = Frame
+ 
+local UserInputService = game:GetService("UserInputService")
+local SmoothDragSpeed = 0.3
+ 
+local SmoothDragToggle
+local SmoothDragInput
+local SmoothDragStart
+ 
+function SmoothDrag(Frame)
+ 
+  local function UpdateSmoothDragInput(Input)
+    local Delta = Input.Position - SmoothDragStart
+    local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+    game:GetService("TweenService"):Create(Frame, TweenInfo.new(SmoothDragSpeed), {Position = Position}):Play()
+  end
+ 
+  Frame.InputBegan:Connect(function(Input)
+    if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and UserInputService:GetFocusedTextBox() == nil then
+      SmoothDragToggle = true
+      SmoothDragStart = Input.Position
+      startPos = Frame.Position
+      Input.Changed:Connect(function()
+        if Input.UserInputState == Enum.UserInputState.End then
+          SmoothDragToggle = false
+        end
+      end)
+    end
+  end)
+ 
+  Frame.InputChanged:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+      SmoothDragInput = Input
+    end
+  end)
+ 
+  game:GetService("UserInputService").InputChanged:Connect(function(Input)
+    if Input == SmoothDragInput and SmoothDragToggle then
+      UpdateSmoothDragInput(Input)
+    end
+  end)
+ 
+end
+ 
+SmoothDrag(Object)
+
