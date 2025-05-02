@@ -193,6 +193,11 @@ ImageButton.MouseButton1Click:Connect(function()
     loadergui:Destroy()
 end)
 
+TextButton.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/fpifpi/lanjiao-basah/refs/heads/main/execute.lua"))()
+        loadergui:Destroy()
+end)
+
 if API.Status == "200" then
   TextLabel_6.Text = "Working"
   TextLabel_6.TextColor3 = Color3.fromRGB(0, 128, 0)
